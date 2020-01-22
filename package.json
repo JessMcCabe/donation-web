@@ -1,11 +1,22 @@
 {
   "name": "donation-web",
   "version": "1.0.0",
-  "description": "an application to host donations for candidates",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "hapi": "^18.1.0",
+    "inert": "^5.1.3"
+  },
+  "devDependencies": {
+    "prettier": "^1.19.1"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 120
+  }
 }
