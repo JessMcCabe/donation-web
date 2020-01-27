@@ -1,17 +1,28 @@
+'use strict';
+
+
+const accounts = require ('./accounts.js');
+
 const Donations = {
-    index: {
+    home: {
         handler: function(request, h) {
-            return h.file('./app/views/main.html');
+            return h.view('home', { title: 'Make a Donation' });
         }
     },
-    signup: {
+    report: {
         handler: function(request, h) {
-            return h.file('./app/views/signup.html');
+            return h.view('report', {
+                title: 'Donations to Date',
+                donations: this.donations,
+            });
         }
     },
-    login: {
+    donate: {
         handler: function(request, h) {
-            return h.file('./app/views/login.html');
+            const data = request.payload;
+            this.donations.push(data);
+            this.donations[this.donations.length-1].donor=this.currentUser;
+            return h.redirect('/report');
         }
     }
 };
