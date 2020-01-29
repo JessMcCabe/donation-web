@@ -40,12 +40,29 @@ const Accounts = {
             return h.redirect('/');
         }
     },
+    showSettings: {
+
+    handler: function(request, h) {
+        return h.view('settings', { title: 'Account Settings' });
+    }
+},
+    saveSettings: {
+        handler: function(request, h) {
+            const user = request.payload;
+            this.users[user.email] = user;
+            request.cookieAuth.set({ id: user.email });
+            return h.redirect('/home');
+        }
+    },
+
+
     logout: {
         handler: function(request, h) {
             request.cookieAuth.clear();
             return h.redirect('/');
         }
     }
+
 };
 
 module.exports = Accounts;
