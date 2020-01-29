@@ -38,7 +38,9 @@ async function init() {
             isSecure: false
         },
     });
-    
+
+    server.auth.default('session');
+
     server.route(require('./routes'));
     await server.start();
     console.log(`Server running at: ${server.info.uri}`);
