@@ -1,6 +1,6 @@
 'use strict';
 
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 
 const server = Hapi.server({
     port: 3000,
@@ -14,8 +14,8 @@ server.bind({
 });
 
 async function init() {
-    await server.register(require('inert'));
-    await server.register(require('vision'));
+    await server.register(require('@hapi/inert'));
+    await server.register(require('@hapi/vision'));
 
     server.views({
         engines: {
