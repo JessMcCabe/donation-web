@@ -8,9 +8,9 @@ const server = Hapi.server({
 });
 
 server.bind({
-    currentUser : {},
-    users: [],
+    users: {},
     donations: [],
+    currentUser: {}
 });
 
 async function init() {
