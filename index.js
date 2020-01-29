@@ -16,6 +16,7 @@ server.bind({
 async function init() {
     await server.register(require('@hapi/inert'));
     await server.register(require('@hapi/vision'));
+    await server.register(require('@hapi/cookie'));
 
     server.views({
         engines: {
@@ -29,10 +30,20 @@ async function init() {
         isCached: false,
     });
 
+
+    server.auth.strategy('session', 'cookie', {
+        cookie: {
+            name: 'donation',
+            password: 'password-should-be-32-characters',
+            isSecure: false
+        },
+    });
+    
     server.route(require('./routes'));
     await server.start();
     console.log(`Server running at: ${server.info.uri}`);
 }
+
 
 process.on('unhandledRejection', err => {
     console.log(err);
