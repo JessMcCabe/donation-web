@@ -11,7 +11,7 @@ module.exports = [
     { method: 'POST', path: '/signup', config: Accounts.signup },
     { method: 'POST', path: '/login', config: Accounts.login },
     { method: 'GET', path: '/settings',config: Accounts.showSettings},
-    { method: 'POST', path: '/settings',config: Accounts.saveSettings},
+    { method: 'POST', path: '/settings',config: Accounts.updateSettings},
 
     { method: 'GET', path: '/home', config: Donations.home },
     { method: 'GET', path: '/report', config: Donations.report },
