@@ -56,16 +56,22 @@ const Accounts = {
         }
     },
     showSettings: {
-        handler: function(request, h) {
-            var donorEmail = request.auth.credentials.id;
-            const userDetails = this.users[donorEmail];
+        handler: async function(request, h) {
+            const id = request.auth.credentials.id;
+            const userDetails = await User.findById(id).lean();
             return h.view('settings', { title: 'Donation Settings', user: userDetails });
         }
     },
     updateSettings: {
-        handler: function(request, h) {
-            const user = request.payload;
-            this.users[user.email] = user;
+        handler: async function(request, h) {
+            const payload = request.payload;
+            const id = request.auth.credentials.id;
+            const userDetails = await User.updateOne({_id : id},{
+                firstName: payload.firstName,
+                lastName: payload.lastName,
+                email: payload.email,
+                password: payload.password});
+            //await userDetails.updateOne();
             return h.redirect('/settings');
         }
     },
