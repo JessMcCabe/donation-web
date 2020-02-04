@@ -20,15 +20,25 @@ const Accounts = {
         auth: false,
         handler: async function(request, h) {
             const payload = request.payload;
-            const newUser = new User({
-                firstName: payload.firstName,
-                lastName: payload.lastName,
-                email: payload.email,
-                password: payload.password
-            });
-            const user = await newUser.save();
-            request.cookieAuth.set({ id: user.id });
-            return h.redirect('/home');
+            try {
+                let existingUser = await User.findOne({email: payload.email});
+                if (existingUser) {
+                    const message = 'Email address is already registered to a user';
+                    throw Boom.unauthorized(message);
+                }
+                const newUser = new User({
+                    firstName: payload.firstName,
+                    lastName: payload.lastName,
+                    email: payload.email,
+                    password: payload.password
+                });
+                const user = await newUser.save();
+                request.cookieAuth.set({id: user.id});
+                return h.redirect('/home');
+            } catch (err) {
+                return h.view('login', {errors: [{message: err.message}]});
+
+            }
         }
     },
     showLogin: {
@@ -71,7 +81,6 @@ const Accounts = {
                 lastName: payload.lastName,
                 email: payload.email,
                 password: payload.password});
-            //await userDetails.updateOne();
             return h.redirect('/settings');
         }
     },
