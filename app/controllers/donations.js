@@ -1,7 +1,7 @@
 'use strict';
 
 
-const accounts = require ('./accounts.js');
+
 const Donation = require('../models/donation');
 const User = require('../models/user');
 
@@ -22,6 +22,7 @@ const Donations = {
     },
     donate: {
         handler: async function(request, h) {
+            try{
             const id = request.auth.credentials.id;
             const user = await User.findById(id);
             const data = request.payload;
@@ -32,6 +33,10 @@ const Donations = {
             });
             await newDonation.save();
             return h.redirect('/report');
+        } catch(err){
+                return h.view('main', { errors: [{ message: err.message }] });
+
+            }
         }
     }
 

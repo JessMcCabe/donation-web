@@ -78,6 +78,7 @@ const Accounts = {
     },
     updateSettings: {
         handler: async function(request, h) {
+            try{
             const payload = request.payload;
             const id = request.auth.credentials.id;
             const userDetails = await User.updateOne({_id : id},{
@@ -86,6 +87,11 @@ const Accounts = {
                 email: payload.email,
                 password: payload.password});
             return h.redirect('/settings');
+        }catch(err){
+                return h.view('settings', { errors: [{ message: err.message }] });
+
+
+            }
         }
     },
 
