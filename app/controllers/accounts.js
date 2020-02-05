@@ -24,7 +24,7 @@ const Accounts = {
                 let existingUser = await User.findOne({email: payload.email});
                 if (existingUser) {
                     const message = 'Email address is already registered to a user';
-                    throw Boom.unauthorized(message);
+                    throw Boom.badData(message);
                 }
                 const newUser = new User({
                     firstName: payload.firstName,
