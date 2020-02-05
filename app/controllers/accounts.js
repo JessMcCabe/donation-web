@@ -67,9 +67,13 @@ const Accounts = {
     },
     showSettings: {
         handler: async function(request, h) {
-            const id = request.auth.credentials.id;
-            const userDetails = await User.findById(id).lean();
-            return h.view('settings', { title: 'Donation Settings', user: userDetails });
+            try {
+                const id = request.auth.credentials.id;
+                const userDetails = await User.findById(id).lean();
+                return h.view('settings', {title: 'Donation Settings', user: userDetails});
+            } catch (err) {
+                return h.view('login', {errors: [{message: err.message}]});
+            }
         }
     },
     updateSettings: {
