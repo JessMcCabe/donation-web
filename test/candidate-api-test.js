@@ -47,4 +47,31 @@ suite('Candidate API tests', function () {
         assert.equal(returnedCandidate.lastName, 'Grumble');
         assert.equal(returnedCandidate.office, 'President');
     });
+    test('delete a candidate', async function() {
+        let response = await axios.get('http://localhost:3000/api/candidates');
+        let candidates = response.data;
+        const originalSize = candidates.length;
+
+        const oneCandidateUrl = 'http://localhost:3000/api/candidates/' + candidates[0]._id;
+        response = await axios.get(oneCandidateUrl);
+        const oneCandidate = response.data;
+        assert.equal(oneCandidate.firstName, 'Lisa');
+
+        response = await axios.delete('http://localhost:3000/api/candidates/' + candidates[0]._id);
+        assert.equal(response.data.success, true);
+
+        response = await axios.get('http://localhost:3000/api/candidates');
+        candidates = response.data;
+        assert.equal(candidates.length, originalSize - 1);
+    });
+    test('delete all candidates', async function() {
+        let response = await axios.get('http://localhost:3000/api/candidates');
+        let candidates = response.data;
+        const originalSize = candidates.length;
+        assert(originalSize > 0);
+        response = await axios.delete('http://localhost:3000/api/candidates');
+        response = await axios.get('http://localhost:3000/api/candidates');
+        candidates = response.data;
+        assert.equal(candidates.length, 0);
+    });
 });
